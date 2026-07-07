@@ -50,7 +50,7 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 RUN composer install --optimize-autoloader --no-dev
 
 # サーバーの入り口（ポート80）を開ける
-EXPOSE 80の中に入れるのよ
+EXPOSE 80
 COPY . /var/www/html
 
 # ファイルの権限を整えるの
