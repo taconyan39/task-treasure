@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.5-apache
 
 # 必要な部品（データベース接続やLaravel必須の機能）を入れるの
 RUN apt-get update && apt-get install -y \
