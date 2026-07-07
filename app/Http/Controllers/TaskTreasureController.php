@@ -72,14 +72,15 @@ public function load(Request $request)
                 ]);
             }
 
-            // 2. クエストのステータスを「完了」に変更して保存します
-            DB::table('tasks')
-                ->where('task_id', $taskId)
-                ->update([
-                    'status' => '完了',
-                    'updated_at' => now()
-                ]);
-
+            // 2. 「毎日」と「単発」だけ完了にする
+            if ($task->type !== '連続') {
+                DB::table('tasks')
+                    ->where('task_id', $taskId)
+                    ->update([
+                        'status' => '完了',
+                        'updated_at' => now()
+                    ]);
+            }
             // 3. ユーザーの「ほうせき（stones）」を、クエストの報酬分だけ増やします
             // 💡 先ほど追加した (int) もバッチリ入っているの！
             DB::table('users')
