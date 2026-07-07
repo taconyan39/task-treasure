@@ -12,13 +12,18 @@ class TaskTreasureController extends Controller
 public function load(Request $request)
     {
         try {
-            // 💡 修正ポイント：フロントエンドから送られてきた '?user=〇〇' の値を取得します
-            $userId = $request->input('user');
+            // 送られてきたユーザーIDを受け取る
+            $userId = request('user'); 
 
-            // もしフロントエンドからIDが送られてこなかった場合の保険として、Auth::id()を使います
-            if (empty($userId)) {
-                $userId = Auth::id();
-            }
+            // フライングで 'null' が来ても、ここで優しく空っぽのデータを返してエラーを防ぐの！
+            if ($userId === 'null' || empty($userId)) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => []
+                ]);
+}
+
+// --- これより下はあなたが元々書いていたデータベース検索処理 ---
 
             // ほうせき（所持数）の取得
             $user = DB::table('users')->where('id', $userId)->first();
