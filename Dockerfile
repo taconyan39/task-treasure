@@ -51,13 +51,3 @@ RUN composer install --optimize-autoloader --no-dev
 
 # サーバーの入り口（ポート80）を開ける
 EXPOSE 80
-COPY . /var/www/html
-
-# ファイルの権限を整えるの
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Laravelの裏方の部品を組み立てるの
-RUN composer install --optimize-autoloader --no-dev --ignore-platform-reqs
-
-# 魔法の箱の入り口（ポート80）を開けるのよ
-EXPOSE 80
