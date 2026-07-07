@@ -18,4 +18,12 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 // ログアウトの処理
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+out'])->name('logout');Route::post('/logout', [AuthController::class, 'log
+
+use Illuminate\Support\Facades\Artisan;
+
+// マイグレーションを実行するための特別なURLなの
+Route::get('/migrate-db', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return 'オーッホッホッホ♪ マイグレーション大成功なの！';
+});
