@@ -31,3 +31,6 @@ RUN composer install --optimize-autoloader --no-dev --ignore-platform-reqs
 
 # サーバーの入り口（ポート80）を開けるの
 EXPOSE 80
+
+# アプリ起動時にマイグレーションとサーバー起動を行うの
+CMD sh -c "php artisan migrate --force && apache2-foreground"
