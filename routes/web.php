@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Artisan;
 
-group(function () {
+// ログインしている人だけがトップページ（RPG画面）を見られるようにする「見張り役（auth）」を設定するの
+Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('task_treasure'); // あなたの素晴らしいRPG画面ね！
     });
