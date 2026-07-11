@@ -113,7 +113,7 @@ public function load(Request $request)
 
             // 1. ユーザーの現在のほうせき数を確認するの
             $user = DB::table('users')->where('id', $userId)->first();
-            if (!$user || $user->stones < 5) {
+            if (!$user || $user->stones < 10) {
                 return response()->json([
                     'success' => false,
                     'message' => 'ほうせきが 足りないみたい！'
@@ -133,7 +133,7 @@ public function load(Request $request)
             $randomItem = $gachaItems->random();
 
             // 4. ほうせきを5個減らすの（decrementは引き算をしてくれる便利な機能よ）
-            DB::table('users')->where('id', $userId)->decrement('stones', 5);
+            DB::table('users')->where('id', $userId)->decrement('stones', 10);
 
             // 5. 当たったご褒美を「トレジャー（rewards）」に追加、もしくは持っていれば数を増やすの
             $existingReward = DB::table('rewards')

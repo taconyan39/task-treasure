@@ -224,6 +224,45 @@
             border-top: 4px dashed var(--rpg-border);
             padding-top: 20px;
         }
+        /* CSS: <style>タグの中に追加するの！ */
+
+        /* ボトムメニュー全体の箱 */
+        .bottom-menu {
+            position: fixed; /* 画面に固定するの */
+            bottom: 0; /* 一番下に配置するの */
+            left: 0;
+            width: 100%; /* 横幅いっぱいにするの */
+            background-color: var(--rpg-window); /* RPG風の黒い背景 */
+            border-top: 2px solid var(--rpg-border); /* 上に白い線を入れるの */
+            display: flex; /* 中身を横並びにする魔法 */
+            justify-content: space-around; /* ボタンを均等に配置するの */
+            padding: 8px 0;
+            z-index: 1000; /* 他の要素より一番上に表示するの */
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.8); /* 少し影をつけるの */
+        }
+
+        /* 各ボタンのデザイン */
+        .menu-item {
+            display: flex;
+            flex-direction: column; /* アイコンと文字を縦に並べるの */
+            align-items: center;
+            text-decoration: none; /* リンクの下線を消すの */
+            color: var(--rpg-text); /* 文字を白にするの */
+            font-size: 11px; /* スマホで見やすいように文字を小さくするの */
+            flex: 1; /* ボタンの幅を均等にするの */
+        }
+
+        /* アイコンのサイズ */
+        .menu-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        /* ボタンを押したときの動き */
+        .menu-item:active {
+            color: var(--rpg-gold); /* 押したら文字とアイコンを金色にするの */
+            transform: scale(0.95); /* 少しへこむ動きをつけて、押した感を出すの */
+        }
     </style>
 </head>
 <body>
@@ -257,7 +296,7 @@
     <div class="gacha-section">
         <h2>たからばこを あける</h2>
         <div class="chest-icon" id="chestBox" onclick="drawGacha()">📦</div>
-        <button class="btn" onclick="drawGacha()">💎 5こ つかって たからばこを開く</button>
+        <button class="btn" onclick="drawGacha()">💎 10個 つかって たからばこを開く</button>
         <div id="gachaResult" style="margin-top:12px; font-size:16px; min-height:20px; color:var(--rpg-gold);"></div>
     </div>
 
@@ -627,5 +666,24 @@ window.addEventListener('DOMContentLoaded', function() {
     loadData();
 });
 </script>
+<!-- HTML: <body>タグの一番下、</body>の直前に入れるの！ -->
+<nav class="bottom-menu">
+    <a href="#" class="menu-item">
+        <span class="menu-icon">🧰</span>
+        <span class="menu-text">ガチャ</span>
+    </a>
+    <a href="/task-add-page" class="menu-item">
+        <span class="menu-icon">➕</span>
+        <span class="menu-text">タスク追加</span>
+    </a>
+    <a href="/task-edit" class="menu-item">
+        <span class="menu-icon">✏️</span>
+        <span class="menu-text">タスク編集</span>
+    </a>
+    <a href="/reward-add-page" class="menu-item">
+        <span class="menu-icon">🎁</span>
+        <span class="menu-text">ご褒美追加</span>
+    </a>
+</nav>
 </body>
 </html>
