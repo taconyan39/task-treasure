@@ -129,12 +129,41 @@ public function load(Request $request)
                 ]);
             }
 
+// --- ここから下を書き換える！ ---
+
             // 3. ランダムに1つご褒美を選ぶのよ（これがガチャの魔法ね！）
-            $randomItem = $gachaItems->random();
+            // 💡 1〜10000のサイコロを振って、レア度を決定するの！
+            $rand = mt_rand(1, 10000);
+            $targetRarity = 'N';
 
-            // 4. ほうせきを5個減らすの（decrementは引き算をしてくれる便利な機能よ）
+            if ($rand <= 5000) {
+                $targetRarity = 'N'; // 50.00%
+            } elseif ($rand <= 8700) {
+                $targetRarity = 'R'; // 37.00%
+            } elseif ($rand <= 9700) {
+                $targetRarity = 'SR'; // 10.00%
+            } elseif ($rand <= 9990) {
+                $targetRarity = 'SSR'; // 2.90%
+            } else {
+                $targetRarity = 'UR'; // 0.10% (10000分の10) ※仕様に合わせて調整したの！
+            }
+
+            // 💡 決まったレア度のアイテムだけを絞り込むの
+            $filteredItems = $gachaItems->where('rarity', $targetRarity);
+
+            // 💡 安全装置：もしそのレア度のアイテムがまだ登録されていなかったら、全体からランダムに選ぶの！
+            if ($filteredItems->isEmpty()) {
+                $randomItem = $gachaItems->random();
+            } else {
+                // 絞り込んだ中からランダムに1つ選ぶの！
+                $randomItem = $filteredItems->random();
+            }
+
+            // --- ここまで書き換える！ ---
+
+            // 4. ほうせきを10減らすの（decrementは引き算をしてくれる便利な機能よ）
             DB::table('users')->where('id', $userId)->decrement('stones', 10);
-
+            
             // 5. 当たったご褒美を「トレジャー（rewards）」に追加、もしくは持っていれば数を増やすの
             $existingReward = DB::table('rewards')
                 ->where('user_id', $userId)
